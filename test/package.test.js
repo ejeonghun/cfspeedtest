@@ -116,7 +116,9 @@ test('published file allowlist includes source and all release disclosures, excl
   });
   assert.ifError(child.error);
   assert.equal(child.status, 0, child.stderr);
-  const [pack] = JSON.parse(child.stdout);
+  const packed = JSON.parse(child.stdout);
+  const pack = Array.isArray(packed) ? packed[0] : packed[manifest.name];
+  assert.ok(pack, 'npm pack must report the named package');
   assert.equal(pack.name, manifest.name);
   assert.equal(pack.version, manifest.version);
   const paths = pack.files.map(({ path }) => path);

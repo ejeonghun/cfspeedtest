@@ -1,0 +1,22 @@
+# Tests and test output
+test/
+tests/
+__tests__/
+coverage/
+.nyc_output/
+
+# Repository and contribution files
+.github/
+.gitignore
+.editorconfig
+.npmignore
+CONTRIBUTING.md
+
+# Development artifacts
+node_modules/
+logs/
+tmp/
+temp/
+*.log
+*.tmp
+.DS_Store

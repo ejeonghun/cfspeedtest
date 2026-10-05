@@ -1,0 +1,12 @@
+cfspeedtest is an independent, unofficial project. It is not affiliated with,
+sponsored, endorsed, or supported by Cloudflare, Inc.
+
+Substantial HTTP measurement algorithms and schedules are adapted from
+@cloudflare/speedtest 1.14.1, Copyright (c) 2023 Cloudflare, Inc., MIT licensed.
+Source: https://github.com/cloudflare/speedtest
+Pinned commit: 323da2ea5697ab4953f2c90c931125ac35d019d8
+See THIRD_PARTY_LICENSES.md for the upstream license.
+
+Names and marks belong to their respective owners. The MIT software licenses
+do not grant rights to trademarks or permission to access third-party services.
+See DISCLAIMER.md and DISCLAIMER.ko.md for service and privacy notices.

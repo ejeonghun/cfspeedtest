@@ -1,0 +1,12 @@
+{
+  "objectClassName": "autnum",
+  "startAutnum": 4766,
+  "endAutnum": 4766,
+  "name": "KIXS-AS-KR-KR",
+  "remarks": [
+    {
+      "title": "description",
+      "description": ["Korea Telecom"]
+    }
+  ]
+}

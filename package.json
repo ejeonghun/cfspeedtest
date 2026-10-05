@@ -1,0 +1,51 @@
+{
+  "name": "cfspeedtest",
+  "version": "0.1.0",
+  "description": "Unofficial Cloudflare HTTP speed test CLI for Node.js",
+  "type": "module",
+  "bin": {
+    "cfspeedtest": "bin/cfspeedtest.js",
+    "cloudflare-speedtestcli": "bin/cloudflare-speedtestcli.js"
+  },
+  "exports": "./src/engine.js",
+  "files": [
+    "bin/",
+    "src/",
+    "README.md",
+    "README.ko.md",
+    "LICENSE",
+    "NOTICE",
+    "THIRD_PARTY_LICENSES.md",
+    "DISCLAIMER.md",
+    "DISCLAIMER.ko.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/check.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ejeonghun/cfspeedtest.git"
+  },
+  "homepage": "https://github.com/ejeonghun/cfspeedtest#readme",
+  "bugs": {
+    "url": "https://github.com/ejeonghun/cfspeedtest/issues"
+  },
+  "keywords": [
+    "cloudflare",
+    "speedtest",
+    "speed-test",
+    "cli",
+    "bandwidth",
+    "latency",
+    "network"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org"
+  }
+}

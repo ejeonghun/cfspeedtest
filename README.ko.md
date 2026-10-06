@@ -37,6 +37,12 @@ cfspeedtest
 
 **데모가 아닌 실제 트래픽입니다:** 주요 페이로드 예정량은 `--quick` **18.1 MB**, 기본 **315.8 MB**, `--full` **1.2658 GB**입니다. 메타데이터·보조 핑·재시도·HTTP/네트워크 오버헤드로 트래픽과 요금이 추가될 수 있습니다. 특히 종량제 연결에서는 사용 전 [서비스·개인정보 안내](DISCLAIMER.ko.md)를 확인하세요.
 
+## 실행 결과
+
+<img src="https://raw.githubusercontent.com/ejeonghun/cfspeedtest/main/docs/images/cfspeedtest-result.png" alt="다운로드, 업로드, HTTP ping, 지터, 서버, AS, 사업자, 대략적인 위치를 보여 주는 실제 cfspeedtest 빠른 측정 CLI 출력" width="800">
+
+빠른 측정 1회의 실제 CLI 출력을 터미널 스타일 이미지로 렌더링했습니다. 표시된 명령은 60초 제한 시간과 20,000,000바이트 HTTP 본문 예산을 사용합니다. 측정 결과와 IP 기반 추정 위치는 달라질 수 있으며, 보편적인 성능 벤치마크가 아닙니다.
+
 ## 옵션
 
 ```sh

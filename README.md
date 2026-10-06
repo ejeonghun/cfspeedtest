@@ -37,6 +37,12 @@ The primary command is `cfspeedtest`; `cloudflare-speedtestcli` remains a legacy
 
 **Real traffic, not a demo:** nominal main payload is **18.1 MB** with `--quick`, **315.8 MB** by default, or **1.2658 GB** with `--full`. Metadata, side pings, retries, and HTTP/network overhead can add traffic and charges. Review the [service and privacy notice](DISCLAIMER.md) before use, especially on metered networks.
 
+## Screenshot
+
+<img src="https://raw.githubusercontent.com/ejeonghun/cfspeedtest/main/docs/images/cfspeedtest-result.png" alt="Actual cfspeedtest quick-test CLI output with download, upload, HTTP ping, jitter, server, AS, provider, and approximate location" width="800">
+
+Actual CLI output from one quick test, rendered as a terminal-style image. The command shown uses a 60-second timeout and a 20,000,000-byte HTTP-body budget. Results and IP-estimated location vary; this is not a universal performance benchmark.
+
 ## Options
 
 ```sh

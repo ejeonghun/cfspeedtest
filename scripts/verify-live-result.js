@@ -1,11 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
 
-export function validateLiveResult(result, maxBytes = 20_000_000) {
+export function validateLiveResult(result, maxBytes = 330_000_000) {
   const fail = field => { throw new Error(`Invalid live result: ${field}`); };
   if (!result || typeof result !== 'object' || Array.isArray(result)) fail('object required');
   if (result.schemaVersion !== 1) fail('schemaVersion');
-  if (result.profile !== 'quick') fail('profile');
+  if (result.profile !== 'default') fail('profile');
   if (result.partial !== undefined && result.partial !== false) fail('partial');
   for (const field of ['downloadMbps', 'uploadMbps', 'durationMs']) {
     if (!Number.isFinite(result[field]) || result[field] <= 0) fail(field);
@@ -32,7 +32,7 @@ async function main() {
   try { parsed = JSON.parse(text); }
   catch { throw new Error('Invalid live result: malformed JSON'); }
   const result = validateLiveResult(parsed);
-  console.log(`Validated GitHub runner quick measurement: download ${result.downloadMbps} Mbps; upload ${result.uploadMbps} Mbps; HTTP latency ${result.latencyMs} ms; jitter ${result.jitterMs} ms; duration ${result.durationMs} ms; payload ${result.bytes.download + result.bytes.upload} bytes.`);
+  console.log(`Validated GitHub runner default measurement: download ${result.downloadMbps} Mbps; upload ${result.uploadMbps} Mbps; HTTP latency ${result.latencyMs} ms; jitter ${result.jitterMs} ms; duration ${result.durationMs} ms; payload ${result.bytes.download + result.bytes.upload} bytes.`);
 }
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {

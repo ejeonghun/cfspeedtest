@@ -9,15 +9,15 @@ import { validateLiveResult } from '../scripts/verify-live-result.js';
 
 // Synthetic offline fixtures only: these tests never perform a speed measurement.
 const fixture = () => ({
-  schemaVersion: 1, profile: 'quick', downloadMbps: 100, uploadMbps: 50,
+  schemaVersion: 1, profile: 'default', downloadMbps: 100, uploadMbps: 50,
   latencyMs: 10, jitterMs: 0, durationMs: 1000,
-  bytes: { download: 10_000_000, upload: 8_100_000 },
+  bytes: { download: 169_000_000, upload: 146_800_000 },
   downloadLoadedLatencyMs: null, downloadLoadedJitterMs: null,
   uploadLoadedLatencyMs: null, uploadLoadedJitterMs: null, packetLoss: null,
   network: { provider: null, asn: null, country: null },
 });
 
-test('live validator accepts complete quick metrics with unavailable optional metadata', () => {
+test('live validator accepts complete default metrics with unavailable optional metadata', () => {
   const result = fixture();
   assert.equal(validateLiveResult(result), result);
   assert.doesNotThrow(() => validateLiveResult({ ...result, latencyMs: 0, partial: false }));
@@ -31,7 +31,7 @@ test('live validator rejects invalid required fields and incomplete measurements
     assert.throws(() => validateLiveResult(result), new RegExp(field));
   }
   for (const [field, values] of [
-    ['schemaVersion', [2, '1']], ['profile', ['full', 'default']],
+    ['schemaVersion', [2, '1']], ['profile', ['full', 'quick']],
     ['partial', [true, 'true', null]],
     ...['downloadMbps', 'uploadMbps', 'durationMs'].map(field => [field, [0, -1, NaN, Infinity, null, '10']]),
     ...['latencyMs', 'jitterMs'].map(field => [field, [-1, NaN, Infinity, null, '10']]),
@@ -49,9 +49,9 @@ test('live validator enforces positive safe byte counters and the combined body 
     }
   }
   for (const bytes of [null, [], 'bytes']) assert.throws(() => validateLiveResult({ ...fixture(), bytes }), /bytes/);
-  assert.throws(() => validateLiveResult({ ...fixture(), bytes: { download: 10_000_001, upload: 10_000_000 } }), /budget/);
+  assert.throws(() => validateLiveResult({ ...fixture(), bytes: { download: 165_000_001, upload: 165_000_000 } }), /budget/);
   assert.throws(() => validateLiveResult({ ...fixture(), bytes: { download: Number.MAX_SAFE_INTEGER, upload: 1 } }), /budget/);
-  assert.doesNotThrow(() => validateLiveResult({ ...fixture(), bytes: { download: 10_000_000, upload: 10_000_000 } }));
+  assert.doesNotThrow(() => validateLiveResult({ ...fixture(), bytes: { download: 165_000_000, upload: 165_000_000 } }));
   for (const budget of [0, -1, Infinity, 1.5]) assert.throws(() => validateLiveResult(fixture(), budget), /maxBytes/);
 });
 
@@ -66,7 +66,7 @@ test('live validator CLI requires one readable JSON object and exits honestly wi
     assert.ifError(success.error);
     assert.equal(success.status, 0, success.stderr);
     assert.equal(success.stderr, '');
-    assert.match(success.stdout, /^Validated GitHub runner quick measurement: download 100 Mbps;/);
+    assert.match(success.stdout, /^Validated GitHub runner default measurement: download 100 Mbps;/);
     for (const args of [[], [path, path], [join(directory, 'missing.json')]]) {
       const child = run(args);
       assert.ifError(child.error);

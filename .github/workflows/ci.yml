@@ -44,10 +44,10 @@ jobs:
         run: npm pack --dry-run
 
   live-speedtest:
-    name: Live quick speed test (GitHub runner)
+    name: Live default speed test (GitHub runner)
     needs: test
     runs-on: ubuntu-latest
-    timeout-minutes: 3
+    timeout-minutes: 5
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -78,8 +78,9 @@ jobs:
       - name: Measure once and require valid complete results
         shell: bash
         run: |
-          cfspeedtest --quick --json --timeout 60 --max-bytes 20000000 > "$LIVE_DIR/result.json" 2> "$LIVE_DIR/stderr.log"
-          node scripts/verify-live-result.js "$LIVE_DIR/result.json" | tee -a "$GITHUB_STEP_SUMMARY"
+          cfspeedtest --json --timeout 120 --max-bytes 330000000 > "$LIVE_DIR/result.json" 2> "$LIVE_DIR/stderr.log"
+          node scripts/verify-live-result.js "$LIVE_DIR/result.json"
+          node scripts/render-ci-summary.js "$LIVE_DIR/result.json" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload measurement diagnostics
         if: always()

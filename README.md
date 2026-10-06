@@ -25,12 +25,14 @@ node bin/cfspeedtest.js --quick
 
 For npm releases:
 
+The npm package is `@wjdgns4019/cfspeedtest`; the CLI command remains `cfspeedtest`.
+
 ```sh
-npm install -g cfspeedtest
+npm install -g @wjdgns4019/cfspeedtest
 cfspeedtest
 ```
 
-Or run a shorter test without a separate global install: `npx --yes cfspeedtest --quick`.
+Or run a shorter test without a separate global install: `npx --yes @wjdgns4019/cfspeedtest --quick`.
 The primary command is `cfspeedtest`; `cloudflare-speedtestcli` remains a legacy alias. No build step is required.
 
 **Real traffic, not a demo:** nominal main payload is **18.1 MB** with `--quick`, **315.8 MB** by default, or **1.2658 GB** with `--full`. Metadata, side pings, retries, and HTTP/network overhead can add traffic and charges. Review the [service and privacy notice](DISCLAIMER.md) before use, especially on metered networks.

@@ -25,12 +25,14 @@ node bin/cfspeedtest.js --quick
 
 npm 배포본을 설치하려면:
 
+npm 패키지 이름은 `@wjdgns4019/cfspeedtest`이며, CLI 명령은 `cfspeedtest`로 유지됩니다.
+
 ```sh
-npm install -g cfspeedtest
+npm install -g @wjdgns4019/cfspeedtest
 cfspeedtest
 ```
 
-별도 전역 설치 없이 짧게 측정하려면 `npx --yes cfspeedtest --quick`을 사용합니다.
+별도 전역 설치 없이 짧게 측정하려면 `npx --yes @wjdgns4019/cfspeedtest --quick`을 사용합니다.
 기본 명령은 `cfspeedtest`이며, 기존 `cloudflare-speedtestcli` 명령도 별칭으로 유지됩니다. 빌드 단계는 필요하지 않습니다.
 
 **데모가 아닌 실제 트래픽입니다:** 주요 페이로드 예정량은 `--quick` **18.1 MB**, 기본 **315.8 MB**, `--full` **1.2658 GB**입니다. 메타데이터·보조 핑·재시도·HTTP/네트워크 오버헤드로 트래픽과 요금이 추가될 수 있습니다. 특히 종량제 연결에서는 사용 전 [서비스·개인정보 안내](DISCLAIMER.ko.md)를 확인하세요.

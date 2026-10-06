@@ -12,7 +12,7 @@ const documents = [
 ];
 
 test('release manifest uses the canonical public package and keeps the legacy executable', async () => {
-  assert.equal(manifest.name, 'cfspeedtest');
+  assert.equal(manifest.name, '@wjdgns4019/cfspeedtest');
   assert.equal(manifest.version, '0.1.0');
   assert.equal(manifest.type, 'module');
   assert.equal(manifest.engines.node, '>=22');
@@ -121,6 +121,7 @@ test('published file allowlist includes source and all release disclosures, excl
   assert.ok(pack, 'npm pack must report the named package');
   assert.equal(pack.name, manifest.name);
   assert.equal(pack.version, manifest.version);
+  assert.equal(pack.filename, 'wjdgns4019-cfspeedtest-0.1.0.tgz');
   const paths = pack.files.map(({ path }) => path);
   const allowedRoot = new Set(['package.json', ...documents]);
   for (const path of paths) {

@@ -1,5 +1,5 @@
 {
-  "name": "cfspeedtest",
+  "name": "@wjdgns4019/cfspeedtest",
   "version": "0.1.0",
   "description": "Unofficial Cloudflare HTTP speed test CLI for Node.js",
   "type": "module",

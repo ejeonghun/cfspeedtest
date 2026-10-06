@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Node.js ${{ matrix.node-version }}
@@ -38,3 +42,52 @@ jobs:
 
       - name: Check package contents
         run: npm pack --dry-run
+
+  live-speedtest:
+    name: Live quick speed test (GitHub runner)
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    env:
+      LIVE_DIR: ${{ runner.temp }}/cfspeedtest-live
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install this checkout's candidate package
+        shell: bash
+        run: |
+          mkdir -p "$LIVE_DIR/package"
+          npm pack --ignore-scripts --pack-destination "$LIVE_DIR/package"
+          shopt -s nullglob
+          packages=("$LIVE_DIR/package/"*.tgz)
+          test "${#packages[@]}" -eq 1
+          npm install -g "${packages[0]}" --ignore-scripts --no-audit --no-fund
+          test "$(command -v cfspeedtest)" = "$(npm prefix -g)/bin/cfspeedtest"
+          test "$(readlink -f "$(command -v cfspeedtest)")" = "$(npm root -g)/@wjdgns4019/cfspeedtest/bin/cfspeedtest.js"
+
+      - name: Measure once and require valid complete results
+        shell: bash
+        run: |
+          cfspeedtest --quick --json --timeout 60 --max-bytes 20000000 > "$LIVE_DIR/result.json" 2> "$LIVE_DIR/stderr.log"
+          node scripts/verify-live-result.js "$LIVE_DIR/result.json" | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload measurement diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: live-speedtest-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ env.LIVE_DIR }}/result.json
+            ${{ env.LIVE_DIR }}/stderr.log
+          if-no-files-found: ignore
+          retention-days: 3

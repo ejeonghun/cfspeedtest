@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { spawnSync } from 'node:child_process';
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { formatResult } from '../src/format.js';
@@ -90,7 +91,7 @@ const script = fileURLToPath(new URL('../scripts/render-ci-summary.js', import.m
 const invoke = args => spawnSync(process.execPath, [script, ...args], { encoding: 'utf8', timeout: 5000 });
 
 test('CLI emits Markdown only on stdout with quiet stderr', async () => {
-  const directory = await mkdtemp('/tmp/opencode/cfspeedtest-summary-test-');
+  const directory = await mkdtemp(join(tmpdir(), 'cfspeedtest-summary-test-'));
   try {
     const path = join(directory, 'result.json');
     await writeFile(path, JSON.stringify(fixture()));
@@ -102,7 +103,7 @@ test('CLI emits Markdown only on stdout with quiet stderr', async () => {
 });
 
 test('CLI rejects arguments, unreadable/oversized files and bad JSON without echoing payloads or paths', async () => {
-  const directory = await mkdtemp('/tmp/opencode/cfspeedtest-summary-test-');
+  const directory = await mkdtemp(join(tmpdir(), 'cfspeedtest-summary-test-'));
   try {
     const malformed = join(directory, 'private-malformed.json');
     const invalid = join(directory, 'private-invalid.json');

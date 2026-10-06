@@ -48,8 +48,6 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     timeout-minutes: 3
-    env:
-      LIVE_DIR: ${{ runner.temp }}/cfspeedtest-live
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -66,6 +64,8 @@ jobs:
       - name: Install this checkout's candidate package
         shell: bash
         run: |
+          LIVE_DIR="$RUNNER_TEMP/cfspeedtest-live"
+          printf 'LIVE_DIR=%s\n' "$LIVE_DIR" >> "$GITHUB_ENV"
           mkdir -p "$LIVE_DIR/package"
           npm pack --ignore-scripts --pack-destination "$LIVE_DIR/package"
           shopt -s nullglob
